@@ -1,8 +1,6 @@
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import ProductsIndex from "../Products/ProductsIndex";
+import { Link, Outlet } from "react-router-dom";
 import { css } from "@emotion/css";
-import ProductEdit from "../Products/ProductEdit";
 
 const AdminStyles = css`
   .Admin {
@@ -33,10 +31,7 @@ const Admin = () => {
         </Link>
       </div>
 
-      <Routes>
-        <Route path="/" element={<ProductsIndex />} />
-        <Route path="/new" element={<ProductEdit />} />
-      </Routes>
+      <Outlet />
     </div>
   );
 };

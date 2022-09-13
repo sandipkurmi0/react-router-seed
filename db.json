@@ -4,7 +4,7 @@
       "id": "the-wedge",
       "name": "The Wedge",
       "description": "Tasty sandwich to max your tastebuds.",
-      "price": 699
+      "price": 6999
     },
     {
       "id": "spice-dog",
@@ -37,16 +37,16 @@
       "price": 449
     },
     {
-      "id": "wild-water",
-      "name": "Wild Water",
-      "description": "Spring water, wild and watery.",
-      "price": 299
-    },
-    {
       "id": "big-cheese",
       "name": "Big Cheese",
       "price": 399,
       "description": "No 1 Burger"
+    },
+    {
+      "id": "wild-water",
+      "name": "testwork",
+      "price": 231,
+      "description": "test work"
     }
   ]
 }

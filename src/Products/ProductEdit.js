@@ -174,6 +174,13 @@ const ProductEdit = ({ isEdit }) => {
           Delete
         </button>
       )}
+      <button
+        type="button"
+        className="ProductEdit-Button"
+        onClick={() => navigate(-1)}
+      >
+        Back
+      </button>
     </form>
   );
 };

@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Navigate, useRoutes } from "react-router-dom";
 import Products from "./Products/Products";
 import Admin from "./Admin/Admin";
 import { css } from "@emotion/css";
 import Nav from "./Common/Nav";
 import ScrollToTop from "./Common/ScrollToTop";
-import PrivateRoute from "./Common/PrivateRoute";
+import ProductsIndex from "./Products/ProductsIndex";
+import Product from "./Products/Product";
 import ProductEdit from "./Products/ProductEdit";
 
 const AppStyles = css`
@@ -27,28 +23,58 @@ const AppStyles = css`
 const App = () => {
   const [authenticated] = useState(true);
 
-  return (
-    <div className={AppStyles}>
-      <Router>
-        <ScrollToTop />
-        <div className="Container">
-          <Nav />
-          <Routes>
-            <Route path="/*" element={<Products />} />
-            <Route
-              path="/admin/*"
-              element={<PrivateRoute authenticated={authenticated} />}
-            >
-              <Route path="/admin/*" element={<Admin />} />
-            </Route>
-            <Route path="/new" element={<ProductEdit isEdit={false} />} />
-            <Route path="/update/:id" element={<ProductEdit isEdit={true} />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </div>
-      </Router>
-    </div>
-  );
+  const routes = useRoutes([
+    {
+      path: "/",
+      element: <Products />,
+      children: [
+        {
+          path: "/",
+          element: <ProductsIndex />,
+        },
+        {
+          path: "/:id",
+          element: <Product />,
+        },
+      ],
+    },
+    {
+      path: "/admin",
+      element: authenticated ? <Admin /> : <Navigate to="/" />,
+      children: [
+        {
+          path: "/admin",
+          element: <ProductsIndex />,
+        },
+        {
+          path: "/admin/new",
+          element: <ProductEdit isEdit={false} />,
+        },
+        {
+          path: "/admin/:id",
+          element: <ProductEdit isEdit={true} />,
+        },
+      ],
+    },
+    {
+      path: "*",
+      element: <Navigate to="/" />,
+    },
+  ]);
+
+  return routes;
 };
 
-export default App;
+const AppWrapper = () => (
+  <div className={AppStyles}>
+    <Router>
+      <ScrollToTop />
+      <div className="Container">
+        <Nav />
+        <App />
+      </div>
+    </Router>
+  </div>
+);
+
+export default AppWrapper;
