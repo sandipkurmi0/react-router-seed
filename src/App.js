@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,8 +9,9 @@ import Products from "./Products/Products";
 import Admin from "./Admin/Admin";
 import { css } from "@emotion/css";
 import Nav from "./Common/Nav";
-import ProductsIndex from "./Products/ProductsIndex";
-import Product from "./Products/Product";
+import ScrollToTop from "./Common/ScrollToTop";
+import PrivateRoute from "./Common/PrivateRoute";
+import ProductEdit from "./Products/ProductEdit";
 
 const AppStyles = css`
   margin: 50px auto;
@@ -24,17 +25,24 @@ const AppStyles = css`
 `;
 
 const App = () => {
+  const [authenticated] = useState(true);
+
   return (
     <div className={AppStyles}>
       <Router>
+        <ScrollToTop />
         <div className="Container">
           <Nav />
           <Routes>
-            <Route path="/" element={<Products />}>
-              <Route path="/" element={<ProductsIndex />} />
-              <Route path=":id" element={<Product />} />
+            <Route path="/*" element={<Products />} />
+            <Route
+              path="/admin/*"
+              element={<PrivateRoute authenticated={authenticated} />}
+            >
+              <Route path="/admin/*" element={<Admin />} />
             </Route>
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/new" element={<ProductEdit isEdit={false} />} />
+            <Route path="/update/:id" element={<ProductEdit isEdit={true} />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
